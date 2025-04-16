@@ -12,7 +12,7 @@ function createCard(cardData, deleteCallback) {
   // Устанавливаем значения (например, cardData.link в src изображения)
 
   cardImage.src = cardData.link;
-  cardImage.alt = cardData.name
+  cardImage.alt = cardData.name;
   titleCard.textContent = cardData.name;
 
   // Вешаем обработчик на кнопку удаления
