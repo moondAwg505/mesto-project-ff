@@ -18,12 +18,18 @@ const popupImageCaption = imagePopup.querySelector(".popup__caption");
 document
   .querySelector(".profile__edit-button")
   .addEventListener("click", () => {
+    // Ввод текущего значения профиля
+    nameInput.value = profileName.textContent;
+    jobInput.value = profileJob.textContent;
+
     openModal(editProfilePopup);
   });
 
 document.querySelector(".profile__add-button").addEventListener("click", () => {
   openModal(addCardPopup);
 });
+
+// Открытие попапов
 
 export const openModal = (popup) => {
   popup.classList.add("popup_is-opened");
@@ -68,14 +74,7 @@ setupPopupListeners(imagePopup);
 
 //Редактировие профиля
 
-document
-  .querySelector(".profile__edit-button")
-  .addEventListener("click", () => {
-    nameInput.value = profileName.textContent;
-    jobInput.value = profileJob.textContent;
-  });
-
-function handleFormSubmit(evt) {
+function profileEditingForm(evt) {
   evt.preventDefault();
 
   const nameValue = nameInput.value;
@@ -87,7 +86,7 @@ function handleFormSubmit(evt) {
   closeModal(editProfilePopup);
 }
 
-formElement.addEventListener("submit", handleFormSubmit);
+formElement.addEventListener("submit", profileEditingForm);
 
 // Функция открытия изображения
 

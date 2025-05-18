@@ -1,30 +1,51 @@
-import { createCard } from "../index.js";
+import { initialCards } from "../cards.js";
+import {
+  openModal,
+  closeModal,
+  closeModalOnOverlay,
+  openImagePopup,
+} from "./modal.js";
 
-const formCardElement = document.querySelector(
-  ".popup__form[name='new-place']"
-);
-const cardNameInput = document.querySelector(".popup__input_type_card-name");
-const cardLinkInput = document.querySelector(".popup__input_type_url");
-const cardPlacesList = document.querySelector(".places__list");
+// Функция создания карточки
+export function createCard(cardData, deleteCallback, likeCallback) {
+  const cardTemplate = document.querySelector("#card-template").content;
+  const cardNode = cardTemplate.querySelector(".card");
+  const cardElement = cardNode.cloneNode(true);
 
-function closeModal(popup) {
-  popup.classList.remove("popup_is-opened");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+  const cardImage = cardElement.querySelector(".card__image");
+  const titleCard = cardElement.querySelector(".card__title");
+  const likeButton = cardElement.querySelector(".card__like-button");
+
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
+  titleCard.textContent = cardData.name;
+
+  //Кнопка удаления
+  deleteButton.addEventListener("click", deleteCallback);
+  //Кнопка лайка
+  likeButton.addEventListener("click", likeCallback);
+
+  // Открытие картинок
+  cardImage.addEventListener("click", () => {
+    openImagePopup(cardData.link, cardData.name);
+  });
+
+  return cardElement;
 }
 
-// Функция удаления карточки
-function handleDeleteCard(evt) {
+// Стандартные обработчики
+export function deletingCard(evt) {
   evt.target.closest(".card").remove();
 }
 
-formCardElement.addEventListener("submit", (evt) => {
-  evt.preventDefault();
+export function likeCards(evt) {
+  evt.target.classList.toggle("card__like-button_is-active");
+}
 
-  const newCard = createCard({
-    name: cardNameInput.value,
-    link: cardLinkInput.value,
+export function renderInitialCards(container) {
+  initialCards.forEach((cardData) => {
+    const newCard = createCard(cardData, deletingCard, likeCards);
+    container.append(newCard);
   });
-
-  cardPlacesList.prepend(newCard);
-  formCardElement.reset();
-  closeModal(document.querySelector(".popup_type_new-card"));
-});
+}
