@@ -1,51 +1,27 @@
-import { initialCards } from "../cards.js";
-import {
-  openModal,
-  closeModal,
-  closeModalOnOverlay,
-  openImagePopup,
-} from "./modal.js";
-
-// Функция создания карточки
-export function createCard(cardData, deleteCallback, likeCallback) {
+export function createCard(cardData, handleCardClick, handleDeleteClick, handleLikeClick) {
   const cardTemplate = document.querySelector("#card-template").content;
-  const cardNode = cardTemplate.querySelector(".card");
-  const cardElement = cardNode.cloneNode(true);
+  const cardElement = cardTemplate.querySelector(".card").cloneNode(true);
 
-  const deleteButton = cardElement.querySelector(".card__delete-button");
   const cardImage = cardElement.querySelector(".card__image");
-  const titleCard = cardElement.querySelector(".card__title");
+  const cardTitle = cardElement.querySelector(".card__title");
+  const deleteButton = cardElement.querySelector(".card__delete-button");
   const likeButton = cardElement.querySelector(".card__like-button");
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
-  titleCard.textContent = cardData.name;
+  cardTitle.textContent = cardData.name;
 
-  //Кнопка удаления
-  deleteButton.addEventListener("click", deleteCallback);
-  //Кнопка лайка
-  likeButton.addEventListener("click", likeCallback);
-
-  // Открытие картинок
-  cardImage.addEventListener("click", () => {
-    openImagePopup(cardData.link, cardData.name);
-  });
+  cardImage.addEventListener("click", () => handleCardClick(cardData));
+  deleteButton.addEventListener("click", handleDeleteClick);
+  likeButton.addEventListener("click", handleLikeClick);
 
   return cardElement;
 }
 
-// Стандартные обработчики
-export function deletingCard(evt) {
+export function deleteCard(evt) {
   evt.target.closest(".card").remove();
 }
 
-export function likeCards(evt) {
+export function likeCard(evt) {
   evt.target.classList.toggle("card__like-button_is-active");
-}
-
-export function renderInitialCards(container) {
-  initialCards.forEach((cardData) => {
-    const newCard = createCard(cardData, deletingCard, likeCards);
-    container.append(newCard);
-  });
 }
