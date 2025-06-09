@@ -54,7 +54,15 @@ export const validationConfig = {
   inactiveButtonClass: "popup__button_disabled",
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
+  errorSelector: ".popup-error"
 };
+
+// Функция обработки удаления карточки
+function handleDeleteCard(cardId, cardElement) {
+  deleteTheCard(cardId)
+    .then(() => cardElement.remove())
+    .catch((err) => console.error("Ошибка удаления карточки:", err));
+}
 
 Promise.all([userInfo(), cardsDownloadWithServer()]).then(([useData, card]) => {
   profileName.textContent = useData.name;
@@ -62,7 +70,9 @@ Promise.all([userInfo(), cardsDownloadWithServer()]).then(([useData, card]) => {
   userId = useData._id;
 
   card.reverse().forEach((cardData) => {
-    const newCard = createCard(cardData, openImagePopup, userId);
+    const newCard = createCard(cardData, openImagePopup, userId,
+       (cardId, element) => handleDeleteCard(cardId, element)
+    );
     placesList.prepend(newCard);
   });
 });

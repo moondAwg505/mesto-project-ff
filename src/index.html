@@ -48,6 +48,7 @@
           <form class="popup__form" name="edit-avatar" novalidate>
             <input
               type="url"
+              data-pattern="url" 
               class="popup__input popup__input_type_avatar-url"
               name="avatar"
               placeholder="Ссылка на аватар"
@@ -68,7 +69,9 @@
             <input
               type="text"
               name="name"
+              data-pattern="name" 
               class="popup__input popup__input_type_name"
+              data-error-message="Только буквы, пробелы и дефисы"
               placeholder="Имя"
               minlength="2"
               maxlength="40"
@@ -78,7 +81,9 @@
             <input
               type="text"
               name="description"
+              data-pattern="description" 
               class="popup__input popup__input_type_description"
+              data-error-message="Только буквы, пробелы и дефисы"
               placeholder="Занятие"
               minlength="2"
               maxlength="200"
@@ -100,6 +105,8 @@
               type="text"
               name="place-name"
               class="popup__input popup__input_type_card-name"
+              data-error="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+              pattern="^[a-zA-Zа-яА-ЯёЁ\s-]+$"
               placeholder="Название"
               minlength="2"
               maxlength="30"
@@ -109,6 +116,7 @@
             <input
               type="url"
               name="link"
+              data-pattern="url" 
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
               required
