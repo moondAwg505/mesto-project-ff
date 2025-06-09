@@ -145,12 +145,8 @@ export function enableValidation(config) {
 
 // Доделать clearValidation(Довести до ума, пока работает странно и не понятно)
 export function clearValidation(formElement, config) {
-  const inputList = Array.from(
-    formElement.querySelectorAll(config.inputSelector)
-  );
-  const errorElements = Array.from(
-    formElement.querySelectorAll(`.${config.errorClass}`)
-  );
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
   inputList.forEach((input) => {
     input.classList.remove(config.inputErrorClass);
